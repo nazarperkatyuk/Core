@@ -1,7 +1,7 @@
 public abstract class Airplane {
 
     public void StartingEngines(){
-        int time = (int) (Math.random() * 23);
+        int time = (int) (Math.random() * 5);
         System.out.println("До взльоту лишилось " + time + " хвилин...");
     }
 
@@ -14,9 +14,9 @@ public abstract class Airplane {
         System.out.println("Літак іде на посадку...");
     }
 
-     private int length;
-     private int weight;
-     private int wight;
+      int length;
+      int weight;
+      int wight;
 
     public Airplane(int length, int weight, int wight) {
         this.length = length;
