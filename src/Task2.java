@@ -1,27 +1,16 @@
-
-import java.util.Scanner;
-
 public class Task2 {
+    public static void main(String[] args) throws MyException {
+        Methods methods = new Methods();
 
-    public static void main(String[] args) {
+        methods.numbers(-1, -1);
+        methods.numbers(0, 3);
+        methods.numbers(5, 0);
+        methods.numbers(0, 0);
+        methods.numbers(2, 2);
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введи число: ");
-
-        double a = scanner.nextDouble();
-        if (a % 1 != 0) {
-            System.out.println("Помилка");
-        } else {
-            System.out.println("Ціле");
-        }
-        if (a % 2 == 0) {
-            System.out.println("парне");
-        }
-        else {
-            if (a % 1 == 0) {
-                System.out.println("Непарне");
-
-            }
-        }
+        methods.dilennya(-1, -1);
+        methods.dobytk(0,0);
+        methods.riznytsya(2,2);
     }
 }
+
