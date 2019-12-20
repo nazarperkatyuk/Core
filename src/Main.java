@@ -1,61 +1,72 @@
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Supplier;
 
 public class Main {
+    public static Supplier<Days> daysSupplier = () -> {
+        System.out.print("Input day of week: ");
+        Scanner scanner = new Scanner(System.in);
+        String string = scanner.nextLine();
+        for (Days day : Days.values()) {
+            if (day.toString().equalsIgnoreCase(string)) {
+                return day;
+            }
+        }
+        return Days.valueOf("MONDAY");
+    };
+
+
     public static void main(String[] args) {
+        System.out.println("Input time when cinema open");
+        Time cinemaOpens = Time.getTimeSupplier();
+        System.out.println("Input time when cinema close");
+        Time cinemaCloses = Time.getTimeSupplier();
+        Cinema cinema = new Cinema(cinemaOpens,cinemaCloses);
+        System.out.print("Make your choice: ");
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine();
 
-        Supplier <Integer> showMenu = () -> {
-            System.out.println("Меню: ");
-            System.out.println("\t1. Додати фракцію");
-            System.out.println("\t2. Видалити конкретну фракцію");
-            System.out.println("\t3. Вивести усі фракції");
-            System.out.println("\t4. Очистити конкретну фракцію");
-            System.out.println("\t5. Вивести конкретну фракцію");
-            System.out.println("\t6. Додати депутата у фракцію");
-            System.out.println("\t7. Видалити депутата з фракції");
-            System.out.println("\t8. Вивести список хабарників");
-            System.out.println("\t9. Вивести найбільшого хабарника");
-            System.out.println("10.Вийти");
+        while (!choice.equalsIgnoreCase("quit")) {
+            switch (choice) {
+                case "1":
+                    System.out.println("You are adding seance to the cinema: ");
+                    cinema.addSeance(Seance.getSeanceSupplier(), daysSupplier.get());
+                    break;
+                case "2":
+                    System.out.println("You are adding movie to the cinema library:");
+                    cinema.addMovie(Movie.getMovieSupplier());
+                    break;
+                case "3":
+                    System.out.println("You are removing seance from the cinema:");
+                    cinema.removeSeance(Seance.getSeanceSupplier(), daysSupplier.get());
+                    break;
+                case "4":
+                    System.out.println("You are removing movie from the cinema library:");
+                    cinema.removeMovie(Movie.getMovieSupplier());
+                    break;
+                case "5":
+                    System.out.println("All movies:");
+                    cinema.getMovieLibrary().forEach(x -> System.out.println("\t" + x));
+                    break;
+                case "6":
+                    System.out.println("All schedules");
+                    Iterator<Map.Entry<Days, Schedule>> iterator = cinema.getDaysScheduleTreeMap().entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry<Days, Schedule> next = iterator.next();
+                        System.out.println(next.getKey() + "\nMovies:");
+                        next.getValue().getSeances().get().forEach(x -> System.out.println("\t" + x));
+                    }
 
-            System.out.println("Введіть потрібне число: ");
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
-            return choice;
-        };
-
-        while (true){
-            switch (showMenu.get()){
-                case 1:
-                    SupremeCouncil.getInstance().addFaction();
                     break;
-                case 2:
-                    SupremeCouncil.getInstance().deleteFaction();
-                    break;
-                case 3:
-                    SupremeCouncil.getInstance().showAllFactions();
-                    break;
-                case 4:
-                    SupremeCouncil.getInstance().deleteAllDeputyFromFaction();
-                    break;
-                case 5:
-                    SupremeCouncil.getInstance().showFaction();
-                    break;
-                case 6:
-                    SupremeCouncil.getInstance().addDeputyToTheFaction();
-                    break;
-                case 7:
-                    SupremeCouncil.getInstance().deleteDeputyFromFaction();
-                    break;
-                case 8:
-                    SupremeCouncil.getInstance().showAllBribeTakers();
-                    break;
-                case 9:
-                    SupremeCouncil.getInstance().theBiggestBribeTaker();
-                    break;
-                default:
+                case "7":
                     System.exit(0);
+                    break;
 
             }
+            System.out.println("Make your choice again");
+            choice = scanner.nextLine();
+
         }
     }
 }
